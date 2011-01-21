@@ -1,0 +1,4 @@
+#! /usr/bin/env ruby
+
+require 'wac'
+puts Wac.fetch(ARGV.join(' ')).inspect

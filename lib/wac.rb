@@ -1,8 +1,5 @@
 require 'active_support'
 require 'nokogiri'
-
-$LOAD_PATH << File.expand_path(File.dirname(__FILE__))
-
 require 'wac/xml_container'
 require 'wac/session'
 require 'wac/query'
@@ -45,3 +42,5 @@ module Wac
   class MissingNodeError < RuntimeError
   end
 end
+
+Wac.appid = ENV['WOLFRAM_API_KEY']
