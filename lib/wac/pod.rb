@@ -33,11 +33,11 @@ module Wac
     end
     
     def plaintext
-      subpods.detect(&:plaintext).try(:plaintext)
+      (e = subpods.detect(&:plaintext)) && e.plaintext
     end
     
     def img
-      subpods.detect(&:img).try(:img)
+      (e = subpods.detect(&:plaintext)) && e.img
     end
     
     def markup
@@ -62,7 +62,7 @@ module Wac
       end
       
       def plaintext
-        xml.plaintext.try(:text)
+        (e = xml.plaintext) && e.text
       end
       
       def img

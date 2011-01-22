@@ -1,5 +1,7 @@
-require 'active_support'
+require 'active_support/core_ext/module/delegation'
+require 'active_support/core_ext/object/to_query'
 require 'nokogiri'
+
 require 'wac/xml_container'
 require 'wac/session'
 require 'wac/query'
@@ -10,7 +12,7 @@ require 'wac/assumption'
 module Wac
   extend self
   
-  DefaultQueryURI = "http://api.wolframalpha.com/v1/query"
+  DefaultQueryURI = "http://api.wolframalpha.com/v2/query"
   
   attr_accessor :appid
   attr_writer :query_uri
@@ -20,7 +22,7 @@ module Wac
   end
   
   def new(appid = nil, options = {})
-    Session.new(appid || self.appid, options.reverse_merge(:query_uri => self.query_uri))
+    Session.new(appid || self.appid, {:query_uri => self.query_uri}.merge(options))
   end
   
   def query(input, options = {})
