@@ -5,6 +5,7 @@ require 'wolfram/query'
 require 'wolfram/result'
 require 'wolfram/pod'
 require 'wolfram/assumption'
+require 'wolfram/version'
 
 module Wolfram
   extend self

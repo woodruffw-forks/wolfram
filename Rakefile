@@ -1,28 +1,35 @@
-# the following tasks are for doc building
-begin
-  require 'hanna/rdoctask'
-  require 'grancher/task'
-  
-  Rake::RDocTask.new(:doc) do |d|
-    d.options << '--all'
-    d.rdoc_dir = 'doc'
-    d.main     = 'README.rdoc'
-    d.title    = "Wac API Docs"
-    d.rdoc_files.include('README.rdoc', 'License.txt', 'lib/**/*.rb')
-  end
+require 'rake'
+require 'fileutils'
 
-  namespace :doc do
-    task :publish => :doc do
-      Rake::Task['doc:push'].invoke unless uptodate?('.git/refs/heads/gh-pages', 'doc')
-    end
-    
-    Grancher::Task.new(:push) do |g|
-      g.keep_all
-      g.directory 'doc', 'doc'
-      g.branch = 'gh-pages'
-      g.push_to = 'origin'
-    end
-  end
-
-rescue LoadError
+def gemspec
+  @gemspec ||= eval(File.read('.gemspec'), binding, '.gemspec')
 end
+
+desc "Build the gem"
+task :gem=>:gemspec do
+  sh "gem build .gemspec"
+  FileUtils.mkdir_p 'pkg'
+  FileUtils.mv "#{gemspec.name}-#{gemspec.version}.gem", 'pkg'
+end
+
+desc "Install the gem locally"
+task :install => :gem do
+  sh %{gem install pkg/#{gemspec.name}-#{gemspec.version}}
+end
+
+desc "Generate the gemspec"
+task :generate do
+  puts gemspec.to_ruby
+end
+
+desc "Validate the gemspec"
+task :gemspec do
+  gemspec.validate
+end
+
+desc 'Run tests'
+task :test do |t|
+  sh 'bacon -q -Ilib -I. test/*_test.rb'
+end
+
+task :default => :test
