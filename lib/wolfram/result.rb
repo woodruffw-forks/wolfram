@@ -5,6 +5,7 @@ module Wolfram
     extend Util
     
     delegate :[], :each, :to => :pods
+    delegate :uri, :to => :query
     
     attr_reader :assumptions, :pods, :query
     

@@ -25,6 +25,11 @@ module Wolfram
     query(input, options).fetch
   end
   
+  def run(argv=ARGV)
+    return puts("wolfram QUERY") if argv.empty?
+    puts fetch(argv.join(' ')).inspect
+  end
+
   class MissingNodeError < RuntimeError; end
 end
 

@@ -1,4 +1,4 @@
 #! /usr/bin/env ruby
 
 require 'wolfram'
-puts Wolfram.fetch(ARGV.join(' ')).inspect
+Wolfram.run
