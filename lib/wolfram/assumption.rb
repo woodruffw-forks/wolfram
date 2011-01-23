@@ -16,7 +16,7 @@ module Wolfram
       @query = options[:query]
       @xml = Nokogiri::XML(xml.to_s).search('assumption').first
       @xml or raise MissingNodeError, "<assumption> node missing from xml: #{xml[0..20]}..."
-      extend Wolfram.mixin(Assumption, @xml['type'])
+      extend Util.module_get(Assumption, @xml['type'])
       @values = Value.collection(@xml, options)
     end
     

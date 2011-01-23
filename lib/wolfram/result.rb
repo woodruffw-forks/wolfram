@@ -14,7 +14,7 @@ module Wolfram
       @xml or raise MissingNodeError, "<queryresult> node missing from xml: #{xml[0..20]}..."
       @assumptions = Assumption.collection(@xml, options)
       @pods = Pod.collection(@xml, options)
-      types.each {|mixin| extend mixin}
+      types.each {|mod| extend mod}
     end
     
     def successful?
@@ -27,7 +27,7 @@ module Wolfram
     end
     
     def types
-      @types ||= xml['datatypes'].split(',').map {|type| Wolfram.mixin(Result, type)}
+      @types ||= xml['datatypes'].split(',').map {|type| Util.module_get(Result, type)}
     end
     
     def inspect

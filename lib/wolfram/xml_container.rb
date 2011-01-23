@@ -1,5 +1,5 @@
 module Wolfram
-  # mixin this module to get sensible default methods for xml container classes
+  # include this module to get sensible default methods for xml container classes
   module XmlContainer
     attr_reader :xml
     

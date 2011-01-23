@@ -11,6 +11,12 @@ module Wolfram
       obj.map {|key, value| to_query(value, key) }.sort * '&'
     end
 
+    # return a module named <name> in <mod> (create if necessary)
+    def self.module_get(mod, name)
+      mod.const_defined?(name) ? mod.const_get(name) :
+        mod.const_set(name, Module.new)
+    end
+
     def delegate(*meths)
       raise ArgumentError unless meths[-1].is_a?(Hash) && meths[-1].key?(:to)
       to_meth = meths.pop[:to]

@@ -25,16 +25,7 @@ module Wolfram
     query(input, options).fetch
   end
   
-  # return a module named <type> in <namespace> (create if necessary)
-  def mixin(namespace, type)
-    Object.const_get "#{namespace.name}::#{type}"
-  rescue NameError
-    namespace.module_eval "module #{type}; end"
-    namespace.const_get type
-  end
-  
-  class MissingNodeError < RuntimeError
-  end
+  class MissingNodeError < RuntimeError; end
 end
 
 Wolfram.appid = ENV['WOLFRAM_API_KEY']

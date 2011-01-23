@@ -30,7 +30,7 @@ module Wolfram
     end
     
     def types
-      @types ||= scanner.split(',').map {|type| Wolfram.mixin(Result, type)}
+      @types ||= scanner.split(',').map {|type| Util.module_get(Result, type)}
     end
     
     def plaintext
