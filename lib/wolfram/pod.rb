@@ -3,7 +3,7 @@ module Wolfram
     include XmlContainer
     include Enumerable
     extend Util
-    
+
     attr_reader :subpods, :query, :states
 
     delegate :[], :each, :to => :subpods
@@ -11,7 +11,7 @@ module Wolfram
     def self.collection(xml, options = {})
       Nokogiri::XML(xml.to_s).search('pod').map {|p_xml| new(p_xml, options)}
     end
-    
+
     def initialize(xml, options = {})
       @query = options[:query]
       @xml = Nokogiri::XML(xml.to_s).search('pod').first
@@ -20,38 +20,38 @@ module Wolfram
       @xml or raise MissingNodeError, "<pod> node missing from xml: #{xml[0..20]}..."
       types.each {|type| extend type}
     end
-    
+
     def to_s
       "#{title}: #{structured? ? plaintext : "'#{markup[0..20]}...'"} #{states.join(", ") if states.any?}"
     end
-    
+
     def inspect
       "#<#{scanner}: #{to_s}>"
     end
-    
+
     def types
       @types ||= scanner.split(',').map {|type| Util.module_get(Result, type)}
     end
-    
+
     def plaintext
       (e = subpods.detect(&:plaintext)) && e.plaintext
     end
-    
+
     def img
       (e = subpods.detect(&:plaintext)) && e.img
     end
-    
+
     def markup
       @markup ||= (xml.search('markup').text || '')
     end
-    
+
     def structured?
       subpods.any?
     end
-    
+
     class Subpod
       include XmlContainer
-      
+
       def self.collection(xml, options = {})
         Nokogiri::XML(xml.to_s).search('subpod').map {|s_xml| new(s_xml, options)}
       end
@@ -61,19 +61,19 @@ module Wolfram
         @xml = Nokogiri::Slop(xml.to_s).search('subpod').first
         @xml or raise MissingNodeError, "<subpod> node missing from xml: #{xml[0..20]}..."
       end
-      
+
       def plaintext
         (e = xml.plaintext) && e.text
       end
-      
+
       def img
         xml.img
       end
     end
-    
+
     class State
       attr_reader :name
-      
+
       def self.collection(xml, options = {})
         Nokogiri::XML(xml.to_s).search('state').map {|s_xml| new(s_xml['name'], options)}
       end
@@ -86,15 +86,15 @@ module Wolfram
       def to_query(key)
         Util.to_query(name, key)
       end
-      
+
       def to_s
         "[#{name}...]"
       end
-      
+
       def inspect
         "#<State: #{to_s}>"
       end
-      
+
       # create a new query using this state
       def requery
         if podstate = @query.params[:podstate]
@@ -102,10 +102,10 @@ module Wolfram
         else
           podstate = self
         end
-        
+
         Query.new(@query.input, @query.options.merge(:podstate => podstate))
       end
-      
+
       # refetch using this state
       def refetch
         requery.fetch
