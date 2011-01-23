@@ -1,6 +1,6 @@
 require 'open-uri'
 
-module Wac
+module Wolfram
   # responsible for constructing a query, and returning the io stream for the query, and creating a Result
   # has an input, appid and options
   class Query
@@ -10,8 +10,8 @@ module Wac
     
     def initialize(input, options = {})
       @input = input
-      @appid = options.delete(:appid) || Wac.appid || raise("No API key set")
-      @query_uri = options.delete(:query_uri) || Wac.query_uri
+      @appid = options.delete(:appid) || Wolfram.appid || raise("No API key set")
+      @query_uri = options.delete(:query_uri) || Wolfram.query_uri
       @options = options
     end
     

@@ -1,4 +1,4 @@
-module Wac
+module Wolfram
   class Assumption
     include XmlContainer
     include Enumerable
@@ -16,7 +16,7 @@ module Wac
       @query = options[:query]
       @xml = Nokogiri::XML(xml.to_s).search('assumption').first
       @xml or raise MissingNodeError, "<assumption> node missing from xml: #{xml[0..20]}..."
-      extend Wac.mixin(Assumption, @xml['type'])
+      extend Wolfram.mixin(Assumption, @xml['type'])
       @values = Value.collection(@xml, options)
     end
     

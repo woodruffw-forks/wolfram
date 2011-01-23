@@ -1,4 +1,4 @@
-module Wac
+module Wolfram
   class Result
     include XmlContainer
     include Enumerable
@@ -27,7 +27,7 @@ module Wac
     end
     
     def types
-      @types ||= xml['datatypes'].split(',').map {|type| Wac.mixin(Result, type)}
+      @types ||= xml['datatypes'].split(',').map {|type| Wolfram.mixin(Result, type)}
     end
     
     def inspect

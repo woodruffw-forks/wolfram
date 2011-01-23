@@ -1,6 +1,6 @@
 require 'cgi'
 
-module Wac
+module Wolfram
   module Util
 
     def self.to_query(obj, key)

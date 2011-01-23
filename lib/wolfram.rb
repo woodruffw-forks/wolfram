@@ -1,12 +1,12 @@
 require 'nokogiri'
-require 'wac/xml_container'
-require 'wac/util'
-require 'wac/query'
-require 'wac/result'
-require 'wac/pod'
-require 'wac/assumption'
+require 'wolfram/xml_container'
+require 'wolfram/util'
+require 'wolfram/query'
+require 'wolfram/result'
+require 'wolfram/pod'
+require 'wolfram/assumption'
 
-module Wac
+module Wolfram
   extend self
   
   DefaultQueryURI = "http://api.wolframalpha.com/v2/query"
@@ -37,4 +37,4 @@ module Wac
   end
 end
 
-Wac.appid = ENV['WOLFRAM_API_KEY']
+Wolfram.appid = ENV['WOLFRAM_API_KEY']

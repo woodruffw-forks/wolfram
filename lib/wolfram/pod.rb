@@ -1,4 +1,4 @@
-module Wac
+module Wolfram
   class Pod
     include XmlContainer
     include Enumerable
@@ -30,7 +30,7 @@ module Wac
     end
     
     def types
-      @types ||= scanner.split(',').map {|type| Wac.mixin(Result, type)}
+      @types ||= scanner.split(',').map {|type| Wolfram.mixin(Result, type)}
     end
     
     def plaintext
