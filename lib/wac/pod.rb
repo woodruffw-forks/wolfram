@@ -97,13 +97,13 @@ module Wac
       
       # create a new query using this state
       def requery
-        if podstate = @query.query_options[:podstate]
+        if podstate = @query.params[:podstate]
           podstate = State.new("#{podstate.name},#{name}", :query => @query)
         else
           podstate = self
         end
         
-        Query.new(@query.input, @query.options.merge(:session => @query.session, :podstate => podstate))
+        Query.new(@query.input, @query.options.merge(:podstate => podstate))
       end
       
       # refetch using this state

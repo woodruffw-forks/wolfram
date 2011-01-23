@@ -1,7 +1,6 @@
 require 'nokogiri'
 require 'wac/xml_container'
 require 'wac/util'
-require 'wac/session'
 require 'wac/query'
 require 'wac/result'
 require 'wac/pod'
@@ -12,23 +11,18 @@ module Wac
   
   DefaultQueryURI = "http://api.wolframalpha.com/v2/query"
   
-  attr_accessor :appid
-  attr_writer :query_uri
+  attr_accessor :appid, :query_uri
   
   def query_uri
     @query_uri ||= DefaultQueryURI
   end
   
-  def new(appid = nil, options = {})
-    Session.new(appid || self.appid, {:query_uri => self.query_uri}.merge(options))
-  end
-  
   def query(input, options = {})
-    new(options.delete(:appid)).query(input, options)
+    Query.new(input, options)
   end
   
   def fetch(input, options = {})
-    new(options.delete(:appid)).fetch(input, options)
+    query(input, options).fetch
   end
   
   # return a module named <type> in <namespace> (create if necessary)

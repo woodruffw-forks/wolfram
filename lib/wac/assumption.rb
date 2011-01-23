@@ -55,7 +55,7 @@ module Wac
       
       # create a new query using this assumption
       def requery
-        Query.new(@query.input, @query.options.merge(:session => @query.session, :assumption => self))
+        Query.new(@query.input, @query.options.merge(:assumption => self))
       end
       
       def refetch

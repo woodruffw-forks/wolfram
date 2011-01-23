@@ -2,15 +2,16 @@ require 'open-uri'
 
 module Wac
   # responsible for constructing a query, and returning the io stream for the query, and creating a Result
-  # has a session object, input, and options
+  # has an input, appid and options
   class Query
     include OpenURI
     
-    attr_accessor :session, :input, :options
+    attr_accessor :input, :options, :appid, :query_uri
     
     def initialize(input, options = {})
       @input = input
-      @session = options.delete(:session)
+      @appid = options.delete(:appid) || Wac.appid || raise("No API key set")
+      @query_uri = options.delete(:query_uri) || Wac.query_uri
       @options = options
     end
     
@@ -32,22 +33,15 @@ module Wac
     
     # the uri that this query will issue a get request to
     def uri
-      "#{query_uri}?#{Util.to_param(query_options)}"
+      "#{query_uri}?#{Util.to_param(params)}"
     end
-    
-    # the full set of options used to make this query, including those inherited form the session
-    def query_options
-      opts = options.merge(:input => input)
-      session ? session.query_options.merge(opts) : opts
+
+    def params
+      options.merge(:input => input, :appid => appid)
     end
-    
+
     def data
       open(uri).read
-    end
-    
-    # use session query_uri, or Wac.query_uri if no session available
-    def query_uri
-      session ? session.query_uri : Wac.query_uri
     end
     
     def inspect
