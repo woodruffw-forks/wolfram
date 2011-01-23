@@ -32,7 +32,7 @@ module Wac
     
     # the uri that this query will issue a get request to
     def uri
-      "#{query_uri}?#{query_options.to_query}"
+      "#{query_uri}?#{Util.to_param(query_options)}"
     end
     
     # the full set of options used to make this query, including those inherited form the session

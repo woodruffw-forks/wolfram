@@ -2,6 +2,7 @@ module Wac
   class Assumption
     include XmlContainer
     include Enumerable
+    extend Util
     
     delegate :[], :each, :to => :values
     
@@ -62,7 +63,7 @@ module Wac
       end
       
       def to_query(key)
-        input.to_query(key)
+        Util.to_query(input, key)
       end
     end
   end

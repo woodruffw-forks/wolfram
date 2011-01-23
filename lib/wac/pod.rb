@@ -2,6 +2,7 @@ module Wac
   class Pod
     include XmlContainer
     include Enumerable
+    extend Util
     
     attr_reader :subpods, :query, :states
 
@@ -83,7 +84,7 @@ module Wac
       end
 
       def to_query(key)
-        name.to_query(key)
+        Util.to_query(name, key)
       end
       
       def to_s

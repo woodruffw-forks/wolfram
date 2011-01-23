@@ -2,6 +2,7 @@ module Wac
   class Result
     include XmlContainer
     include Enumerable
+    extend Util
     
     delegate :[], :each, :to => :pods
     

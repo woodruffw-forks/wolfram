@@ -1,8 +1,6 @@
-require 'active_support/core_ext/module/delegation'
-require 'active_support/core_ext/object/to_query'
 require 'nokogiri'
-
 require 'wac/xml_container'
+require 'wac/util'
 require 'wac/session'
 require 'wac/query'
 require 'wac/result'
