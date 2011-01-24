@@ -31,9 +31,11 @@ module Wolfram
     puts fetch(argv.join(' ')).inspect
   rescue MissingNodeError
     warn "Wolfram Error: Invalid response - #{$!.message}"
+  rescue RuntimeError
+    warn "Wolfram Error: #{$!.message}"
   end
 
   class MissingNodeError < RuntimeError; end
 end
 
-Wolfram.appid = ENV['WOLFRAM_API_KEY']
+Wolfram.appid = ENV['WOLFRAM_APPID']

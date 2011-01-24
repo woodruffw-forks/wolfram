@@ -21,5 +21,12 @@ describe "Wolfram" do
       mock(Wolfram::Query).fetch(anything) { ' ' }
       capture_stderr { wolfram 'boston' }.should =~ /^Wolfram Error:.*queryresult/
     end
+
+    it "with no appid prints error" do
+      val = Wolfram.appid
+      Wolfram.appid = nil
+      capture_stderr { wolfram 'boston' }.should =~ /Wolfram Error:.*APPID/
+      Wolfram.appid = val
+    end
   end
 end
