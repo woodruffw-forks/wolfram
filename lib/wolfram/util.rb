@@ -3,15 +3,17 @@ require 'cgi'
 module Wolfram
   module Util
 
+    # From activesupport
     def self.to_query(obj, key)
       "#{CGI.escape(key.to_s).gsub(/%(5B|5D)/n) { [$1].pack('H*') }}=#{CGI.escape(obj.to_s)}"
     end
 
+    # From activesupport
     def self.to_param(obj)
       obj.map {|key, value| to_query(value, key) }.sort * '&'
     end
 
-    # return a module named <name> in <mod> (create if necessary)
+    # Finds or creates a module by name for a given module
     def self.module_get(mod, name)
       mod.const_defined?(name) ? mod.const_get(name) :
         mod.const_set(name, Module.new)

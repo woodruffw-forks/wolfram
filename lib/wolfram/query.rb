@@ -4,7 +4,9 @@ module Wolfram
   # responsible for constructing a query, and returning the io stream for the query, and creating a Result
   # has an input, appid and options
   class Query
-    include OpenURI
+    def self.fetch(uri)
+      open(uri).read
+    end
 
     attr_accessor :input, :options, :appid, :query_uri
 
@@ -22,7 +24,7 @@ module Wolfram
 
     # go and fetch the result, this is done automaticaly if you ask for the result
     def fetch
-      @result = Result.new(data, :query => self)
+      @result = Result.new(self.class.fetch(uri), :query => self)
     end
 
     # the query result
@@ -38,10 +40,6 @@ module Wolfram
 
     def params
       options.merge(:input => input, :appid => appid)
-    end
-
-    def data
-      open(uri).read
     end
 
     def inspect

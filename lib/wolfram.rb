@@ -27,8 +27,10 @@ module Wolfram
   end
 
   def run(argv=ARGV)
-    return puts("wolfram QUERY") if argv.empty?
+    return puts("Usage: wolfram QUERY") if argv.empty?
     puts fetch(argv.join(' ')).inspect
+  rescue MissingNodeError
+    warn "Wolfram Error: Invalid response - #{$!.message}"
   end
 
   class MissingNodeError < RuntimeError; end
