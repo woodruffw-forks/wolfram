@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Gabriel Horner"]
   s.email       = "gabriel.horner@gmail.com"
   s.homepage    = "http://github.com/cldwalker/wolfram"
-  s.summary = "SUMMARY"
-  s.description =  "DESCRIPTION"
+  s.summary = "Wolfram V2 API client"
+  s.description =  "Explore the vast world of computational knowledge available for free via Wolfram's v2 API."
   s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project = 'tagaholic'
   s.executables = ['wolfram']

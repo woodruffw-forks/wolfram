@@ -1,192 +1,46 @@
-= 0.1 release of Wolfram|Alpha Client for ruby
+== Description
+Explore the vast world of computational knowledge available for free via Wolfram's v2 API.
 
-This is extreme alpha code!
+== Install
 
-gem is coming soon, as are features and tests
+To install this gem:
 
-== resources
+    gem install wolfram
 
-<b>Github</b> for code: http://github.com/ianwhite/wac
+== Setup
 
-<b>API</b> docs: http://ianwhite.github.com/wac/doc
+You'll need a Wolfram Appid (api key) by {creating an account
+here}[http://developer.wolframalpha.com/portal/apisignup.html] and
+then clicking on the 'Get an APPID' button.
 
-== get going
+Once you have your own appid, set it in your shell, preferably in your ~/.bashrc:
 
-  make sure nokogiri and active_support are installed as gems
+    export WOLFRAM_APPID='YOURKEY'
 
-  $ git clone git://github.com/ianwhite/wac.git
-  $ cd wac
-  $ irb
+If you want to explicitly set your appid in a script:
   
-  > require 'rubygems' # or similar, to load up the deps
-  
-  > require 'lib/wac'  
-  
-  > Wac.appid = "YOURAPIKEY"
-  
-  
-  # grab a query result straight away
-  
-  > r = Wac.fetch 'pi'
-  
-      => a: MathematicalFunctionIdentity (assumptions: Clash)
-        - Input: pi 
-        - Decimal approximation: 3.1415926535897932384626433832795028841971693993751058209749... [More digits...]
-        - Property: pi is a transcendental number 
-        - Continued fraction: [3; 7, 15, 1, 292, 1, 1, 1, 2, 1, 3, 1, 14, 2, 1, 1, 2, 2, 2, 2, 1, 84, 2, 1, 1, 15, ...] [Fraction form...], [More terms...]
-        - Alternative representations: pi = 180 deg  [More...]
-        - Series representations: pi = 4 sum_(k=0)^infinity(-1)^k/(2 k+1) [More...]
-        - Integral representations: pi = 2 integral_0^infinity1/(t^2+1) dt [More...]
-  
-  
-  # requery using an assumption
-  
-  > r.assumptions
-  
-      => [#<Clash: a mathematical constant, a character, a movie, a word>]
-  
-  > r.assumptions[0][1].requery
-  
-      => q: "pi" (assuming a character)
-  
-  > r.assumptions[0][1].requery.fetch
-  
-      => a: Character (assumptions: Clash)
-        - Input interpretation: pi  (character) 
-        - Visual form:  
-        - Name: Greek small letter pi 
-        - Position in the Greek alphabet: 16th  letter  (10th letter from the end) 
-        - Encodings: Unicode | U+03C0  (decimal: 960)
-      HTML | &#960;
-      Mathematica | \[Pi] [More...]
-        - Standards blocks: Unicode | Greek and Coptic  (880 through 1023)  (144 characters)
-      ISO 8859 | ISO 8859-7 (Greek)  (character 240) 
-  
-  
-  # requery using a pod state
-  
-  > r[1]
-  
-      => #<Numeric: Decimal approximation: 3.1415926535897932384626433832795028841971693993751058209749... [More digits...]>
-      
-  > r[1].states[0].requery.fetch[1]
-  
-      => #<Recognize: Decimal approximation: 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282... [Fewer digits...], [More digits...]>
-  
-== Types
+    Wolfram.appid = "YOURKEY"
 
-mixins are found/created that match the WA api results, and applied to the results.  This means you can add your own app-specific behaviour by
-opening the mixins you are interested in.
+== Usage
 
-For the 'pi' example above the following modules are mixed in:
+Query away on the commandline!
 
-  # the result is Wac::Result::MathematicalFunctionIdentity
-  > r.is_a? Wac::Result::MathematicalFunctionIdentity
-  => true
-  
-  # the pods are given mixins for their scanner attributes
-  > r[0].is_a? Wac::Result::Identity
-  => true
-  > r[1].is_a? Wac::Result::Numeric
-  => true
-  
-  # the assumptions are given Assumption mixins
-  > r.assumptions[0].is_a? Wac::Assumption::Clash
-  => true
-  
-  # add your own behaviour for numerics
-  
-    module Wac::Result::Numeric
-      def to_f
-        plaintext.to_f
-      end
-    end
-    
-  # now all Numeric results can be cast to floats
+    # Calculate distance and travel time between places
+    $ wolfram from boston to new york
 
-== Want Images?
+    # Solve an equation
+    $ wolfram x^3 - 4x^2 + 6x - 24 = 0
 
-Most pods have an image associated with them, here's an example of how to access them:
+    # Find words ending with able
+    $ wolfram words ending with able
 
-  > r = Wac.fetch "Bob Dylan, Neil Young, Woody Guthrie, Kylie Minogue"
-   
-    => a: City,People
-      - Input interpretation: Bob Dylan  (musician)  |  Neil Young  (musician)  |  Woody Guthrie  (musician)  |  Kylie Minogue  (singer/songwriter) 
-      - Basic information:  | full name | date of birth | place of birth
-        Bob Dylan | Robert Allen Zimmerman | 1941  (age: 68 years) | Duluth,Minnesota
-        Neil Young | Neil Percival Young | 1945  (age: 63 years) | Toronto,Ontario
-        Woody Guthrie | Woodrow Wilson Guthrie | 1912  (97 years ago) | Okemah,Oklahoma
-        Kylie Minogue | Kylie Ann Minogue | 1968  (age: 41 years) | Melbourne,Victoria
-         | date of death | place of death
-        Woody Guthrie | 1967  (age: 55 years)
-        (42 years ago) | New York [Show full dates...]
-      - Timeline:  
-    
-  # collate all the images of these in a html string
+For many more examples, {see here}[http://www.wolframalpha.com/examples/].
   
-  > r.map {|p| p.img}.join
-  
-    => "<img src=\"http://www1.wolframalpha.com/Calculate/MSP/MSP75197hc39c9cc059e800006b0403d7gehhf9f4?MSPStoreType=image/gif&amp;s=31\" alt=\"Bob Dylan  (musician)  |  Neil Young  (musician)  |  Woody Guthrie  (musician)  |  Kylie Minogue  (singer/songwriter)\" title=\"Bob Dylan  (musician)  |  Neil Young  (musician)  |  Woody Guthrie  (musician)  |  Kylie Minogue  (singer/songwriter)\" width=\"437\" height=\"41\"/><img src=\"http://www1.wolframalpha.com/Calculate/MSP/MSP76197hc39c9cc059e8000055d4671i712ab0g0?MSPStoreType=image/gif&amp;s=31\" alt=\" | full name | date of birth | place of birth Bob Dylan | Robert Allen Zimmerman | 1941  (age: 68 years) | Duluth,Minnesota Neil Young | Neil Percival Young | 1945  (age: 63 years) | Toronto,Ontario Woody Guthrie | Woodrow Wilson Guthrie | 1912  (97 years ago) | Okemah,Oklahoma Kylie Minogue | Kylie Ann Minogue | 1968  (age: 41 years) | Melbourne,Victoria  | date of death | place of death Woody Guthrie | 1967  (age: 55 years) (42 years ago) | New York\" title=\" | full name | date of birth | place of birth Bob Dylan | Robert Allen Zimmerman | 1941  (age: 68 years) | Duluth,Minnesota Neil Young | Neil Percival Young | 1945  (age: 63 years) | Toronto,Ontario Woody Guthrie | Woodrow Wilson Guthrie | 1912  (97 years ago) | Okemah,Oklahoma Kylie Minogue | Kylie Ann Minogue | 1968  (age: 41 years) | Melbourne,Victoria  | date of death | place of death Woody Guthrie | 1967  (age: 55 years) (42 years ago) | New York\" width=\"495\" height=\"355\"/><img src=\"http://www1.wolframalpha.com/Calculate/MSP/MSP77197hc39c9cc059e800005dhd19ib9b5g5igf?MSPStoreType=image/gif&amp;s=31\" alt=\"\" title=\"\" width=\"500\" height=\"108\"/>"
-    
-  # launch these images in browser windows
-  
-  > require 'launchy'
-  > r.each {|p| Launchy.open(p.img['src'])}
+== Credits
 
-== Want HTML?
+{Ian White}[https://github.com/ianwhite] is the original author of this gem.
 
-You can ask for formats in html, etc by adding options to the query or session (the session is just an options container that can issue queries).
-
-  > s = Wac.new 'MYAPPID', :format => 'html'
-  > s.fetch('pi')[1].markup
-    => "<div id=\"pod_0200\" class=\"pod \"><hr class=\"top\" /><h1><span>Decimal approximation:</span><ul><li class=\"first\">..."
-    
-== Other options
-
-All of the official Wolfram Alpha API options are supported, on both sessions and queries.  In addition, you can change the query_uri to point
-somewhere else.
-
-  > s = Wac.new 'MYAPPID', :location => "Sheffield, UK"
-  > q = s.query "Distance to the Moon"
-  
-  > q.uri
-  
-    => "http://api.wolframalpha.com/v1/query?appid=beta824g5&input=Distance+to+the+moon&location=Sheffield%2C+UK"
-    
-  > s.query_uri = "http://preview.wolframalpha.com/api/v1/query.jsp"
-  > q = s.query "Distance to the Moon"
-  > q.uri
-  
-    => "http://preview.wolframalpha.com/api/v1/query.jsp?appid=beta824g5&input=Distance+to+the+Moon&location=Sheffield%2C+UK"
-    
-  > q.fetch
-  
-    => a: Astronomical,City
-      - Input interpretation: Moon | distance from Earth 
-      - Current result: 230407 miles 
-      - Unit conversions: 370803 km  (kilometers) 
-      - Comparison as distance:  ~~ 0.96 x mean Moon-Earth distance ( 3.844x10^8 m ) 
-      - Corresponding quantity: Light travel time t in vacuum from t=x/c:
-         | 1.2 seconds 
-      - Orbital properties: current distance from Earth | 230407 mi
-        1.237 light seconds
-        average distance from Earth | 239200 mi
-        1.284 light seconds
-        largest distance from orbit center | 252100 mi
-        63.61 R_(+)
-        nearest distance from orbit center | 225600 mi
-        56.93 R_(+)
-        orbital period | 27.322 days [Show metric...], [More...]
-    
-  > q = s.query "distance to Manchester"
-  
-    => a: City,Internet (assumptions: SubCategory)
-      - Input interpretation: distance | from Sheffield to Manchester 
-      - Result: 31 miles 
-      - Unit conversions: 49.89 km  (kilometers) 
-      - Direct travel times: aircraft  (550 mph) | 3 minutes  20 seconds
-        sound | 2 minutes  20 seconds
-        light in fiber | 235 micros  (microseconds)
-        light in vacuum | 165 micros  (microseconds)
-        (assuming direct great-circle paths) [More...]
-      - Map:  
+== Todo
+* More tests!
+* A better inspect
+* Handle more api options including format
