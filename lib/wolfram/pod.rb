@@ -4,14 +4,13 @@ module Wolfram
     include Enumerable
     extend Util
 
-    attr_reader :subpods, :query, :states
-
     delegate :[], :each, :to => :subpods
 
     def self.collection(xml, options = {})
       Nokogiri::XML(xml.to_s).search('pod').map {|p_xml| new(p_xml, options)}
     end
 
+    attr_reader :subpods, :query, :states
     def initialize(xml, options = {})
       @query = options[:query]
       @xml = Nokogiri::XML(xml.to_s).search('pod').first
@@ -95,7 +94,6 @@ module Wolfram
         "#<State: #{to_s}>"
       end
 
-      # create a new query using this state
       def requery
         if podstate = @query.params[:podstate]
           podstate = State.new("#{podstate.name},#{name}", :query => @query)
@@ -106,7 +104,6 @@ module Wolfram
         Query.new(@query.input, @query.options.merge(:podstate => podstate))
       end
 
-      # refetch using this state
       def refetch
         requery.fetch
       end

@@ -1,4 +1,5 @@
 module Wolfram
+  # Result of a Query. Can have multiple Assumptions and Pods.
   class Result
     include XmlContainer
     include Enumerable
@@ -18,7 +19,7 @@ module Wolfram
       types.each {|mod| extend mod}
     end
 
-    def successful?
+    def success?
       success
     end
 

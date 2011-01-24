@@ -11,7 +11,6 @@ module Wolfram
     end
 
     attr_reader :values
-
     def initialize(xml, options = {})
       @query = options[:query]
       @xml = Nokogiri::XML(xml.to_s).search('assumption').first
@@ -53,7 +52,6 @@ module Wolfram
         desc
       end
 
-      # create a new query using this assumption
       def requery
         Query.new(@query.input, @query.options.merge(:assumption => self))
       end

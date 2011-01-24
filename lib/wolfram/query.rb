@@ -1,15 +1,13 @@
 require 'open-uri'
 
 module Wolfram
-  # responsible for constructing a query, and returning the io stream for the query, and creating a Result
-  # has an input, appid and options
+  # When given an input, appid and other query params, creates a Result object
   class Query
     def self.fetch(uri)
       open(uri).read
     end
 
     attr_accessor :input, :options, :appid, :query_uri
-
     def initialize(input, options = {})
       @input = input
       @appid = options.delete(:appid) || Wolfram.appid || raise("No API key set")
@@ -17,20 +15,13 @@ module Wolfram
       @options = options
     end
 
-    # has the result been fetched?
-    def fetched?
-      @result ? true : false
-    end
-
-    # go and fetch the result, this is done automaticaly if you ask for the result
+    # explicitly fetch the result
     def fetch
       @result = Result.new(self.class.fetch(uri), :query => self)
     end
 
-    # the query result
     def result
-      fetch unless fetched?
-      @result
+      @result ||= fetch
     end
 
     # the uri that this query will issue a get request to
@@ -46,7 +37,7 @@ module Wolfram
       out = "q: \"#{input}\""
       out << " #{options[:podstate]}" if options[:podstate]
       out << " (assuming #{options[:assumption]})" if options[:assumption]
-      out << ", a: #{result.datatypes}" if fetched?
+      out << ", a: #{result.datatypes}" if @result
       out
     end
   end
