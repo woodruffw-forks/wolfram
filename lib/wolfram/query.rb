@@ -25,8 +25,8 @@ module Wolfram
     end
 
     # the uri that this query will issue a get request to
-    def uri
-      "#{query_uri}?#{Util.to_param(params)}"
+    def uri(hash=params)
+      "#{query_uri}?#{Util.to_param(hash)}"
     end
 
     def params
