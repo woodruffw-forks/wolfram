@@ -5,7 +5,7 @@ module Wolfram
     include Enumerable
     extend Util
 
-    delegate :[], :each, :to => :pods
+    delegate :each, :to => :pods
     delegate :uri, :to => :query
 
     attr_reader :assumptions, :pods, :query
@@ -17,6 +17,10 @@ module Wolfram
       @assumptions = Assumption.collection(@xml, options)
       @pods = Pod.collection(@xml, options)
       types.each {|mod| extend mod}
+    end
+
+    def [](key)
+      key.is_a?(String) ? pods.find {|e| e.title == key } : pods[key]
     end
 
     def success?
