@@ -52,7 +52,7 @@ module Wolfram
       include XmlContainer
 
       def self.collection(xml, options = {})
-        Nokogiri::XML(xml.to_s).search('subpod').map {|s_xml| new(s_xml, options)}
+        Nokogiri::XML(xml.to_s).search('subpod').map {|s_xml| new(s_xml, options) }
       end
 
       def initialize(xml, options = {})
@@ -71,14 +71,17 @@ module Wolfram
     end
 
     class State
-      attr_reader :name
+      attr_reader :name, :input
 
       def self.collection(xml, options = {})
-        Nokogiri::XML(xml.to_s).search('state').map {|s_xml| new(s_xml['name'], options)}
+        Nokogiri::XML(xml.to_s).search('state').map {|s_xml|
+          new(s_xml['name'], options.merge(:input => s_xml['input']))
+        }
       end
 
       def initialize(name, options = {})
         @query = options[:query]
+        @input = options[:input]
         @name = name
       end
 
@@ -95,12 +98,7 @@ module Wolfram
       end
 
       def requery
-        if podstate = @query.params[:podstate]
-          podstate = State.new("#{podstate.name},#{name}", :query => @query)
-        else
-          podstate = self
-        end
-
+        podstate = @query.params[:podstate] ? [@query.params[:podstate], input] : input
         Query.new(@query.input, @query.options.merge(:podstate => podstate))
       end
 

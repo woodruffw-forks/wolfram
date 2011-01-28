@@ -5,6 +5,7 @@ module Wolfram
 
     # From activesupport
     def self.to_query(obj, key)
+      obj.is_a?(Array) ? obj.map {|e| to_query(e, key) } * '&' :
       "#{CGI.escape(key.to_s).gsub(/%(5B|5D)/n) { [$1].pack('H*') }}=#{CGI.escape(obj.to_s)}"
     end
 
