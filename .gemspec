@@ -5,7 +5,7 @@ require File.dirname(__FILE__) + "/lib/wolfram/version"
 Gem::Specification.new do |s|
   s.name        = "wolfram"
   s.version     = Wolfram::VERSION
-  s.authors     = ["Gabriel Horner"]
+  s.authors     = ["Gabriel Horner", "Ian White"]
   s.email       = "gabriel.horner@gmail.com"
   s.homepage    = "http://github.com/cldwalker/wolfram"
   s.summary = "Wolfram V2 API client"
