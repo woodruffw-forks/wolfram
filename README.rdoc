@@ -41,6 +41,9 @@ For many more examples, {see here}[http://www.wolframalpha.com/examples/].
 * {Ian White}[https://github.com/ianwhite] is the original author of this gem.
 * bdigital for a bug fix
 
+== Contributing
+{See here}[http://tagaholic.me/contributing.html]
+
 == Todo
 * More tests!
 * A better inspect
