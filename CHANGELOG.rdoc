@@ -1,3 +1,7 @@
+== 0.2.0
+* Add HashPresenter class
+* Update fixture
+
 == 0.1.2
 * Fix constants bug
 
