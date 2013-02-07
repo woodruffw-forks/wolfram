@@ -34,5 +34,9 @@ module Wolfram
         super
       end
     end
+
+    def respond_to_missing?(meth, include_private)
+      result.respond_to?(meth, include_private) || super
+    end
   end
 end

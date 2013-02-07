@@ -27,6 +27,11 @@ module TestHelpers
     end
     fake.string
   end
+
+  def read_fixture(name)
+    path = File.expand_path("../fixtures/#{name}.xml", __FILE__)
+    File.read(path)
+  end
 end
 
 class Bacon::Context
