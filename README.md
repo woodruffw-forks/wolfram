@@ -53,7 +53,7 @@ Regular ruby usage:
 query = 'boston population'
 result = Wolfram.fetch(query)
 # to see the result as a hash of pods and assumptions:
-hash = HashPresenter.new(result).to_hash
+hash = Wolfram::HashPresenter.new(result).to_hash
 ```
 
 For many more examples, [see here](http://www.wolframalpha.com/examples/).
