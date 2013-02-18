@@ -3,7 +3,6 @@ Description
 
 Explore the vast world of computational knowledge available for free via Wolfram's v2 API.
 
-
 ### Install
 
 To install this gem:
@@ -11,7 +10,6 @@ To install this gem:
 ```bash
 gem install wolfram
 ```
-
 
 ### Setup
 
@@ -30,7 +28,6 @@ If you want to explicitly set your appid in a script:
 ```ruby
 Wolfram.appid = "YOURKEY"
 ```
-
 
 ### Usage
 
@@ -58,13 +55,11 @@ hash = Wolfram::HashPresenter.new(result).to_hash
 
 For many more examples, [see here](http://www.wolframalpha.com/examples/).
 
-
 ## Credits
 
 * [Ian White](https://github.com/ianwhite) is the original author of this gem.
 * spaghetticode for HashPresenter
 * bdigital for a bug fix
-
 
 ## Todo
 

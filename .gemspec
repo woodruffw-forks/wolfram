@@ -17,8 +17,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'bacon', '>= 1.1.0'
   s.add_development_dependency 'bacon-rr'
   s.add_development_dependency 'bacon-bits'
-  s.files = Dir.glob(%w[{lib,test}/**/*.rb bin/* [A-Z]*.{txt,rdoc} ext/**/*.{rb,c} **/deps.rip]) + %w{Rakefile .gemspec}
-  s.files += Dir.glob(['test/fixtures/*.xml']) + %w{.travis.yml CONTRIBUTING.md}
+  s.files = Dir.glob(%w[{lib,test}/**/*.rb bin/* [A-Z]*.{txt,md} ext/**/*.{rb,c} **/deps.rip]) + %w{Rakefile .gemspec}
+  s.files += Dir.glob(['test/fixtures/*.xml']) + %w{.travis.yml}
   s.extra_rdoc_files = ["README.md", "LICENSE.txt"]
   s.license = 'MIT'
 end
