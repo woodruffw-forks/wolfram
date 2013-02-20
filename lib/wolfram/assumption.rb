@@ -49,11 +49,11 @@ module Wolfram
       end
 
       def to_s
-        input
+        desc
       end
 
       def requery
-        Query.new(@query.input, @query.options.merge(:assumption => self))
+        Query.new(@query.input, @query.options.merge(:assumption => input))
       end
 
       def refetch
