@@ -1,3 +1,6 @@
+== 0.2.1
+* Fix requery.fetch
+
 == 0.2.0
 * Add HashPresenter class
 * Update fixture

@@ -58,8 +58,8 @@ For many more examples, [see here](http://www.wolframalpha.com/examples/).
 ## Credits
 
 * [Ian White](https://github.com/ianwhite) is the original author of this gem.
-* spaghetticode for HashPresenter
-* bdigital for a bug fix
+* @spaghetticode for HashPresenter
+* @bdigital, @emilesilvis for bug fixes
 
 ## Todo
 
