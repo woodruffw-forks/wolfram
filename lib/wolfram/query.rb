@@ -4,7 +4,7 @@ module Wolfram
   # When given an input, appid and other query params, creates a Result object
   class Query
     def self.fetch(uri)
-      open(uri).read
+      URI.open(uri).read
     end
 
     attr_accessor :input, :options, :appid, :query_uri
